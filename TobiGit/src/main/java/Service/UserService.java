@@ -3,10 +3,7 @@ package Service;
 import Domain.User;
 import Repository.InterfaceDB;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,29 +17,31 @@ public class UserService implements InterfaceService{
 
     @Override
     public String add(User user) throws ClassNotFoundException, SQLException {
-        if(!isDuplicated(user.getId())) {
-                return "실패";
-        }
+//        if(!isDuplicated(user.getId())) {
+//                return "실패";
+//        }
         Connection c = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String userId = null;
         try {
             c = db.getConnection();
             // 추가 => db에 add를 하는것 => 중복확인해야함 => 없다면 추가
-            String sql = "INSERT INTO USERS(name, password) VALUES(?, ?)";
-            pstmt = c.prepareStatement(sql);
+            String sql = "INSERT INTO users(name, password) VALUES(?, ?)";
+            pstmt = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getPassword());
-            rs = pstmt.executeQuery();
-            userId = rs.getNString("id");
-        } catch (ClassNotFoundException e) {
+            pstmt.executeUpdate(); // query에서 변경하고 오류남
+            rs = pstmt.getGeneratedKeys();
+            if(rs.next()) {
+                user.setId(rs.getString(1));
+                return user.getId();
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             db.closeConnection(c, pstmt, rs);
         }
-        return userId;
-
+        return null;
     }
 
     @Override

@@ -1,62 +1,62 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.4.0'
-    id 'io.spring.dependency-management' version'1.1.6'
-}
-
-group = 'Reload'
-version = '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-devtools'
-
-}
-
-test {
-    useJUnitPlatform()
-}
-
 //plugins {
 //    id 'java'
 //    id 'org.springframework.boot' version '3.4.0'
-//    id 'io.spring.dependency-management' version '1.1.6'
+//    id 'io.spring.dependency-management' version'1.1.6'
 //}
 //
 //group = 'Reload'
-//version = '0.0.1-SNAPSHOT'
-//
-//java {
-//    toolchain {
-//        languageVersion = JavaLanguageVersion.of(23)
-//    }
-//}
+//version = '1.0-SNAPSHOT'
 //
 //repositories {
 //    mavenCentral()
 //}
 //
 //dependencies {
-//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//    testImplementation platform('org.junit:junit-bom:5.10.0')
+//    testImplementation 'org.junit.jupiter:junit-jupiter'
+//
 //    implementation 'org.springframework.boot:spring-boot-starter-web'
 //    implementation 'org.springframework.boot:spring-boot-devtools'
-//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-//    //jdbc, mysql
-//    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-//    runtimeOnly 'com.mysql:mysql-connector-j'
-//    //AOP
-//    implementation 'org.springframework.boot:spring-boot-starter-aop'
+//
 //}
 //
-//tasks.named('test') {
+//test {
 //    useJUnitPlatform()
 //}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'Reload'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    //jdbc, mysql
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    //AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
