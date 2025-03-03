@@ -11,7 +11,13 @@ import java.util.Optional;
 public class UserService implements InterfaceService{
     private InterfaceDB db;
 
+    public UserService() {}
+
     public UserService(InterfaceDB db) {
+        this.db = db;
+    }
+
+    public void setDB(InterfaceDB db) {
         this.db = db;
     }
 
@@ -30,7 +36,7 @@ public class UserService implements InterfaceService{
             pstmt = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getPassword());
-            pstmt.executeUpdate(); // query에서 변경하고 오류남
+            pstmt.executeUpdate();
             rs = pstmt.getGeneratedKeys();
             if(rs.next()) {
                 user.setId(rs.getString(1));
