@@ -18,18 +18,21 @@ public class TobiGit {
 //        MySqlRepository mySqlRepository =
 //                context.getBean("interfaceDB", MySqlRepository.class);
         // 여기가 ApllicationContext
-//        ApplicationContext context =
-//                new AnnotationConfigApplicationContext(UserConfig.class);
-//        InterfaceService userService =
-//                context.getBean("userService", UserService.class);
-        // 여기가 GenericXmlApplicationContext
         ApplicationContext context =
-                new GenericXmlApplicationContext("applicationConfig.xml");
-        InterfaceService userService = context.getBean("userService", InterfaceService.class);
+                new AnnotationConfigApplicationContext(UserConfig.class);
+        InterfaceService userService =
+                context.getBean("userService", UserService.class);
+        // 여기가 GenericXmlApplicationContext
+//        ApplicationContext context =
+//                new GenericXmlApplicationContext("applicationConfig.xml");
+//        InterfaceService userService = context.getBean("userService", InterfaceService.class);
         User user1 = new User();
         user1.setName("진영");
         user1.setPassword("20051122");
         userService.add(user1);
     }
+    
+    // 3/4 GenericXmlApplication 적용 완료
+    // DataSource 적용하기
 
 }
