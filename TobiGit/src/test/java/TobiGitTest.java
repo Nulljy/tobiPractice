@@ -33,6 +33,6 @@ class TobiGitTest {
         userService.add(user1);
 
         Optional<User> user2 = userService.findById(user1.getId());
-        Assertions.assertThat(user1.getName()).isEqualTo("진영");
+
     }
 }

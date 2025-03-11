@@ -29,6 +29,17 @@ public class UserService implements InterfaceService{
         this.db = dataSource;
     }
 
+    public void deleteAll() throws SQLException {
+        String sql = "DELETE FROM USERS";
+        try(
+                Connection c = db.getConnection();
+                PreparedStatement pstmt = c.prepareStatement(sql);
+            )
+        {
+            pstmt.executeUpdate();
+        }
+    }
+
     @Override
     public String add(User user) throws ClassNotFoundException, SQLException {
 //        if(!isDuplicated(user.getId())) {
