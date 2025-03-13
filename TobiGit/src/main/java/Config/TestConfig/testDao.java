@@ -1,6 +1,7 @@
 package Config.TestConfig;
 
 import Domain.User;
+import Service.testService.DaoUserService;
 import learningTest.Dao.UserDao;
 import learningTest.Dao.UserDaoJdbc;
 import org.springframework.boot.SpringBootConfiguration;
@@ -13,11 +14,13 @@ import javax.xml.crypto.Data;
 
 @Configuration
 public class testDao {
-//    private final DataSource dataSource;
-//
-//    public testDao(DataSource dataSource) {
-//        this.dataSource = dataSource;
-//    }
+
+    @Bean
+    DaoUserService daoUserService() {
+        DaoUserService daoUserService = new DaoUserService();
+        daoUserService.setUserDao(userDao());
+        return daoUserService;
+    }
 
     @Bean
     public DataSource dataSource() {

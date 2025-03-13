@@ -11,4 +11,5 @@ public interface UserDao {
     List<UserWithLevel> getAll();
     void deleteAll();
     int getCount();
+    void update(UserWithLevel userWithLevel);
 }
