@@ -1,16 +1,26 @@
 package learningTest;
 
+/**
+ * 03-13 1:38 깃배쉬에 수정 전 버전 저장해두었음
+ */
 public enum Level {
-    BASIC(1), SILVER(2), GOLD(3);
+    GOLD(3, null), SILVER(2, GOLD), BASIC(1, SILVER)  ;
 
     private final int value;
+    // 03-13 추가 -> next 관련된것
+    private final Level next;
 
-    Level(int value) {
+    Level(int value, Level next) {
         this.value = value;
+        this.next = next;
     }
 
     public int intValue() {
         return value;
+    }
+
+    public Level nextLevel() {
+        return this.next;
     }
 
     public static Level valueOf(int value) {

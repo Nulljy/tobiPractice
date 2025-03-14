@@ -4,6 +4,7 @@ import Domain.User;
 import Service.testService.DaoUserService;
 import learningTest.Dao.UserDao;
 import learningTest.Dao.UserDaoJdbc;
+import learningTest.UpgradePolicies.UserLevelUpgrade;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ public class testDao {
     @Bean
     DaoUserService daoUserService() {
         DaoUserService daoUserService = new DaoUserService();
-        daoUserService.setUserDao(userDao());
+        daoUserService.setService(userDao(), userLevelUpgrade());
         return daoUserService;
     }
 
@@ -37,5 +38,11 @@ public class testDao {
         UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
         userDaoJdbc.setDataSource(dataSource());
         return userDaoJdbc;
+    }
+
+    @Bean
+    public UserLevelUpgrade userLevelUpgrade() {
+        UserLevelUpgrade userLevelUpgrade = new UserLevelUpgrade();
+        return userLevelUpgrade;
     }
 }
