@@ -2,15 +2,21 @@ package learningTest;
 
 import Config.TestConfig.testDao;
 import Domain.UserWithLevel;
+import Service.UserService;
 import Service.testService.DaoUserService;
+import Service.testService.TestUserService;
 import learningTest.Dao.UserDao;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +31,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @ContextConfiguration(classes = testDao.class)
 public class UserServiceTest {
+    @Autowired
+    private DataSource dataSource;
+
     @Autowired
     DaoUserService daoUserService;
 
@@ -53,11 +62,24 @@ public class UserServiceTest {
      * service로 유저의 레벨을 올려준후 되는지 확인
      */
     @Test
-    public void upgradeLevels() {
-        for(UserWithLevel user : users) {
-            userDao.add(user);
+    public void upgradeLevels() throws Exception{
+        TransactionSynchronizationManager.initSynchronization();
+        Connection c = DataSourceUtils.getConnection(dataSource);
+        c.setAutoCommit(false);
+        try {
+            for(UserWithLevel user : users) {
+                userDao.add(user);
+            }
+            daoUserService.upgradeLevels();
+            c.commit();
+        } catch (Exception e) {
+            c.rollback();
+            throw e;
+        } finally {
+            DataSourceUtils.releaseConnection(c, dataSource);
+            TransactionSynchronizationManager.unbindResource(this.dataSource);
+            TransactionSynchronizationManager.clearSynchronization();
         }
-        daoUserService.upgradeLevels();
     }
     /**
      * dao에 users에 있는 모든 user를 추가 후 upgrade 해보기
@@ -124,6 +146,8 @@ public class UserServiceTest {
     public void bean() {
         assertThat(this.daoUserService).isNotNull();
         assertThat(this.userDao).isNotNull();
+        assertThat(this.dataSource).isNotNull();
     }
+
 
 }

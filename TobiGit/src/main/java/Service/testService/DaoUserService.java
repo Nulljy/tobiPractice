@@ -6,19 +6,24 @@ import learningTest.Level;
 import learningTest.UpgradePolicies.UserLevelUpgrade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.List;
 
 
 @Service
 public class DaoUserService {
-//    public static final int MIN_LOGCOUNT_FOR_SILVER = 30;
-//    public static final int MIN_RECOMMEND_FOR_GOLD = 50;
 
     @Autowired
     private UserDao userDao;
     @Autowired
     private UserLevelUpgrade userLevelUpgrade;
+
+    private PlatformTransactionManager transactionManager;
+
+    public void setTransactionManager(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
 
     public void setService(UserDao userDao, UserLevelUpgrade userLevelUpgrade) {
         this.userDao = userDao;
@@ -87,5 +92,6 @@ public class DaoUserService {
 //            default: throw new IllegalStateException("Unknown Level: " + currentLevel);
 //        }
 //    }
+
 
 }

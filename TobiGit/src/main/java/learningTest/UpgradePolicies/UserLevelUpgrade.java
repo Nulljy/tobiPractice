@@ -34,4 +34,8 @@ public class UserLevelUpgrade implements upgradePolicy{
             default: throw new IllegalStateException(currentLevel + "은 unknown level입니다.");
         }
     }
+
+    static class TestUserServiceException extends RuntimeException {
+
+    }
 }
